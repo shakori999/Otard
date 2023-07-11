@@ -1,7 +1,7 @@
 # Environments #
 ################
-newweb/
-newweb
+part-9/newweb/
+part-9/newweb
 .vscode
 
 # Django #
