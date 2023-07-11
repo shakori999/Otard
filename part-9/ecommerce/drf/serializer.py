@@ -36,10 +36,7 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = ["name", "slug", "is_active"]
         read_only = True
-    
-    def __init__(self, *args, **kwargs):
-        super(CategorySerializer, self).__init__(*args, *kwargs)
-        self.Meta.depth = 1
+        depth = 1
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -48,11 +45,8 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = ["id","name", "web_id"]
         read_only = True
         editable = False
+        depth = 1
 
-   # def __init__(self, *args, **kwargs):
-   #    super(ProductSerializer, self).__init__(*args, *kwargs)
-   #
-   #     self.Meta.depth = 1
 
 
 class ProductMediaSerializer(serializers.ModelSerializer):
@@ -91,7 +85,9 @@ class ProductInventorySerializer(serializers.ModelSerializer):
             "product_type",
             "promotion_price",
         ]
+        depth = 1
         read_only = True
+
 
     def get_promotion_price(self, obj):
 

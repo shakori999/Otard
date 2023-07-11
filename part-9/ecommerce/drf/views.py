@@ -19,16 +19,14 @@ from rest_framework.mixins import (
 from ecommerce.inventory.models import Category, Product, ProductInventory
 from ecommerce.order.models import Order, OrderItem
 
-class CategoryList(APIView):
+class CategoryList(generics.ListAPIView):
     """
     Return list of all categories
     """
     #permission_classes=[permissions.IsAuthenticated]
-
-    def get(self, request):
-        queryset = Category.objects.all()
-        serializer = CategorySerializer(queryset, many=True)
-        return Response(serializer.data)
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    
 
     def post(self, request):
         serializer = CategorySerializer(data=request.data)
@@ -64,6 +62,11 @@ class ProductsList(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     
+    def post(self, request):
+        serializer = ProductSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
 
 class ProductByCategory(APIView):
     """
