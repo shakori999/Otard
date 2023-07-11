@@ -1,8 +1,9 @@
 [
-{ "model": "auth.user",
+{ "model": "accounts.Customuser",
     "pk": 1,
     "fields":{
-      "username": "admin",
+      "first_name": "admin",
+      "last_name": "1",
       "password": "pbkdf2_sha256$260000$KfZ2hspAeA8KhAAJ8mKpjw$60ajS7y4Fw72yg+DzZQADfUsUs4l3MJuhABupfjQ3z0=",
       "email": "a@a.com",
       "is_superuser": true,

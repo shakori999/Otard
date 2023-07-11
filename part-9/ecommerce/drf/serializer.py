@@ -11,6 +11,7 @@ from ecommerce.inventory.models import (
     ProductInventory,
     ProductType,
 )
+from ecommerce.order.models import Order, OrderItem
 from ecommerce.promotion.models import Promotion
 from rest_framework import serializers
 
@@ -109,3 +110,35 @@ class ProductInventorySearchSerializer(serializers.ModelSerializer):
             "product",
             "brand",
         ]
+
+class CartItemSerializer(serializers.ModelSerializer):
+    product = ProductSerializer(many=False)
+    sub_total = serializers.SerializerMethodField( method_name="total")
+    class Meta:
+        model= OrderItem
+        fields = ["id", "cart", "product", "quantity", "sub_total"]
+        
+    
+    def total(self, cartitem:OrderItem):
+        return cartitem.quantity * cartitem.product.price
+
+
+
+
+
+
+class CartSerializer(serializers.ModelSerializer):
+    id = serializers.UUIDField(read_only=True)
+    items = CartItemSerializer(many=True, read_only=True)
+    grand_total = serializers.SerializerMethodField(method_name='main_total')
+    
+    class Meta:
+        model = Order
+        fields = ["id", "items", "grand_total"]
+        
+    
+    
+    def main_total(self, cart: Order):
+        items = cart.items.all()
+        total = sum([item.quantity * item.product.price for item in items])
+        return total

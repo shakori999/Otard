@@ -1,13 +1,22 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from ecommerce.drf.serializer import (
     CategorySerializer,
     ProductInventorySerializer,
     ProductSerializer,
+    CartItemSerializer,
+    CartSerializer,
 )
-from ecommerce.inventory.models import Category, Product, ProductInventory
+
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+from rest_framework.viewsets import ModelViewSet,GenericViewSet
+from rest_framework.mixins import (
+        CreateModelMixin,
+        RetrieveModelMixin,
+        DestroyModelMixin,
+        )
+from ecommerce.inventory.models import Category, Product, ProductInventory
+from ecommerce.order.models import Order, OrderItem
 
 class CategoryList(APIView):
     """
@@ -19,6 +28,48 @@ class CategoryList(APIView):
         serializer = CategorySerializer(queryset, many=True)
         return Response(serializer.data)
 
+    def post(self, request):
+        serializer = CategorySerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+class CategoryDetails(APIView):
+    """
+    Return a category details
+    """
+    def get(self, request, pk):
+        category = get_object_or_404(Category, id=pk)
+        serializer = CategorySerializer(category)
+        return Response(serializer.data)
+    
+    def put(self, request, pk):
+        category = get_object_or_404(Category, id=pk)
+        serializer = CategorySerializer(category, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+    
+    def delete(self, request, pk):
+        category = get_object_or_404(Category, id=pk)
+        category.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class ProductsList(APIView):
+    """
+    Reeturn a list of all products
+    """
+    def get(self, request):
+        products = Product.objects.all()
+        serializer = ProductSerializer(products, many=True)
+        return Response(serializer.data)
+    
+    def post(self, request):
+        serializer = ProductSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+    
 
 class ProductByCategory(APIView):
     """
@@ -40,3 +91,39 @@ class ProductInventoryByWebId(APIView):
         queryset = ProductInventory.objects.filter(product__web_id=query)
         serializer = ProductInventorySerializer(queryset, many=True)
         return Response(serializer.data)
+
+class ProductDetails(APIView):
+    def get(self, request, pk):
+        product = get_object_or_404(Product, id=pk)
+        serializer = ProductSerializer(product)
+        return Response(serializer.data)
+    
+    def put(self, request, pk):
+        product = get_object_or_404(Product, id=pk)
+        serializer = ProductSerializer(product, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+    
+    def delete(self, request, pk):
+        product = get_object_or_404(Product, id=pk)
+        product.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+
+
+
+
+
+
+    
+        
+
+
+        
+    
+    
+
+

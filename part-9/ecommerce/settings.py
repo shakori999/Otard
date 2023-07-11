@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from celery.schedules import crontab
+from django.conf.global_settings import AUTH_USER_MODEL
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,15 +28,21 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    #apps
     "ecommerce.inventory",
     "ecommerce.drf",
     "ecommerce.demo",
     "ecommerce.search",
     "ecommerce.promotion",
+    "ecommerce.accounts",
+    "ecommerce.checkout",
+    "ecommerce.order",
+
     # External app
     "rest_framework",
     "mptt",
     "django_elasticsearch_dsl",
+    "django_countries",
 ]
 
 MIDDLEWARE = [
@@ -114,6 +121,8 @@ USE_I18N = True
 
 USE_TZ = True
 
+#settings for admin user model
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
