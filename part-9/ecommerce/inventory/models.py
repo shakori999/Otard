@@ -114,6 +114,11 @@ class ProductAttributeValue(models.Model):
         max_length=255,
     )
 
+    def __str__(self):
+        #return self.product_attribute.name + self.attribute_value
+        return f"{self.product_attribute.name} {self.attribute_value}"
+    
+
 
 class ProductInventory(models.Model):
     sku = models.CharField(
@@ -214,6 +219,9 @@ class Stock(models.Model):
         default=0,
     )
 
+    def __str__(self):
+        return self.product_inventory.sku
+
 
 class ProductAttributeValues(models.Model):
     attributevalues = models.ForeignKey(
@@ -231,6 +239,9 @@ class ProductAttributeValues(models.Model):
         unique_together = (("attributevalues", "productinventory"),)
 
 
+    def __str__(self):
+        return self.attributevalues.product_attribute.name
+
 class ProductTypeAttribute(models.Model):
     product_attribute = models.ForeignKey(
         ProductAttribute,
@@ -245,3 +256,8 @@ class ProductTypeAttribute(models.Model):
 
     class Meta:
         unique_together = (("product_attribute", "product_type"),)
+
+    def __str__(self):
+        return self.product_attribute.name
+
+
