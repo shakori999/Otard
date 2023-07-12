@@ -36,10 +36,20 @@ Promotion App Scope:
     - [x] Should allow selection of multiple promotion types (User Defined, Coupons)
     - [x] A daily automated scheduled task should manage promotion activation (run at 1am every day)
 
+
 API:
 
     - [ ] API endpoint refactor to include promotion price
     - [ ] API endpoint refactor to include order details
+    - [ ] API endpoint refactor to include checout
+    - [ ] API endpoint refactor to include login and sign in with social media
+    - [ ] API endpoint refactor to include wish list
+    - [ ] API endpoint refactor to include customer profile 
+    - [ ] API endpoint refactor to include history of all user's orders
+    - [ ] API endpoint refactor to include history of all user's orders
+    - [ ] API endpoint refactor to include product rating and reviews
 
+FRONT-END:
 
+    - [ ] setup a svelte front-end
     
