@@ -17,6 +17,7 @@ django-elasticsearch-dsl==7.2.2
 django-js-asset==2.0.0
 django-mptt==0.13.4
 djangorestframework==3.13.1
+djangorestframework-simplejwt==5.2.2
 drf-nested-routers==0.93.4
 elasticsearch==7.17.1
 elasticsearch-dsl==7.4.0
@@ -34,6 +35,7 @@ prometheus-client==0.13.1
 prompt-toolkit==3.0.28
 psycopg2-binary==2.9.3
 py==1.11.0
+PyJWT==2.7.0
 pyparsing==3.0.7
 pytest==7.1.1
 pytest-django==4.5.2
