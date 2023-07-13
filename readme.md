@@ -39,6 +39,7 @@ Promotion App Scope:
 
 API:
 
+    - [x] API endpoint refactor to include list of all customers 
     - [ ] API endpoint refactor to include promotion price
     - [ ] API endpoint refactor to include order details
     - [ ] API endpoint refactor to include checout

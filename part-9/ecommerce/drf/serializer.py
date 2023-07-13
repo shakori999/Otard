@@ -11,10 +11,21 @@ from ecommerce.inventory.models import (
     ProductInventory,
     ProductType,
 )
+from ecommerce.accounts.models import CustomUser 
+from django.contrib.auth.models import User
 from ecommerce.order.models import Order, OrderItem
 from ecommerce.promotion.models import Promotion
 from rest_framework import serializers
 
+
+class CustomersListSerializer(serializers.ModelSerializer):
+    phone = serializers.IntegerField(max_value=50)
+    address = serializers.CharField(max_length=50)
+
+    class Meta:
+        model = CustomUser
+        fields = ["username","email","phone", "address"]
+        read_only = True
 
 class ProductAttributeValueSerializer(serializers.ModelSerializer):
     class Meta:
@@ -115,6 +126,7 @@ class ProductInventorySearchSerializer(serializers.ModelSerializer):
             "product",
             "brand",
         ]
+
 
 class CartItemSerializer(serializers.ModelSerializer):
     product = ProductSerializer(many=False)

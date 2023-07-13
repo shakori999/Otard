@@ -3,6 +3,7 @@ from ecommerce.drf.serializer import (
     CategorySerializer,
     ProductInventorySerializer,
     ProductSerializer,
+    CustomersListSerializer,
     CartItemSerializer,
     CartSerializer,
 )
@@ -15,8 +16,19 @@ from rest_framework.mixins import (
         RetrieveModelMixin,
         DestroyModelMixin,
         )
+from ecommerce.accounts.models import CustomUser
+from django.contrib.auth.models import User
 from ecommerce.inventory.models import Category, Product, ProductInventory
 from ecommerce.order.models import Order, OrderItem
+
+class CustomersList(generics.ListAPIView):
+    """
+    Return list of all Customers
+    """
+    permission_classes=[permissions.IsAdminUser]
+    queryset = CustomUser.objects.all()
+    serializer_class = CustomersListSerializer
+    
 
 class CategoryList(generics.ListAPIView):
     """
