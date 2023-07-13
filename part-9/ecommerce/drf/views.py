@@ -4,6 +4,7 @@ from ecommerce.drf.serializer import (
     ProductInventorySerializer,
     ProductSerializer,
     CustomersListSerializer,
+    CustomersDetialsSerializer,
     CartItemSerializer,
     CartSerializer,
 )
@@ -21,7 +22,7 @@ from django.contrib.auth.models import User
 from ecommerce.inventory.models import Category, Product, ProductInventory
 from ecommerce.order.models import Order, OrderItem
 
-class CustomersList(generics.ListAPIView):
+class CustomersList(generics.ListCreateAPIView):
     """
     Return list of all Customers
     """
@@ -29,6 +30,30 @@ class CustomersList(generics.ListAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomersListSerializer
     
+class CustomersDetails(generics.RetrieveUpdateDestroyAPIView):
+    """
+    Return list of all Customers
+    """
+    #permission_classes=[permissions.IsAuthenticated]
+    queryset = CustomUser.objects.all()
+    serializer_class = CustomersDetialsSerializer
+
+    def get(self, request, pk):
+        product = get_object_or_404(CustomUser, id=pk)
+        serializer = CustomersDetialsSerializer(product)
+        return Response(serializer.data)
+    
+    def put(self, request, pk):
+        product = get_object_or_404(CustomUser, id=pk)
+        serializer = CustomersDetialsSerializer(product, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+    
+    def delete(self, request, pk):
+        product = get_object_or_404(CustomUser, id=pk)
+        product.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 class CategoryList(generics.ListAPIView):
     """

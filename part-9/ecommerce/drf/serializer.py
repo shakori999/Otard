@@ -27,6 +27,22 @@ class CustomersListSerializer(serializers.ModelSerializer):
         fields = ["username","email","phone", "address"]
         read_only = True
 
+    def __init__(self, *args, **kwargs):
+        super(CustomersListSerializer, self).__init__(*args, **kwargs)
+
+
+class CustomersDetialsSerializer(serializers.ModelSerializer):
+    phone = serializers.IntegerField(max_value=50)
+    address = serializers.CharField(max_length=50)
+
+    class Meta:
+        model = CustomUser
+        fields = ["username","email","phone", "address"]
+        read_only = True
+
+    def __init__(self, *args, **kwargs):
+        super(CustomersDetialsSerializer, self).__init__(*args, **kwargs)
+
 class ProductAttributeValueSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductAttributeValue

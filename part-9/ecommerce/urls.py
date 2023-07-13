@@ -22,6 +22,7 @@ from ecommerce.drf.views import (
     ProductsList,
     ProductDetails,
     CustomersList,
+    CustomersDetails,
     )
 from ecommerce.search.views import SearchProductInventory
 from ecommerce.order.views import *
@@ -36,6 +37,7 @@ urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path("api/customers/all/", CustomersList.as_view()),
+    path("api/customer/detail/<int:pk>/", CustomersDetails.as_view()),
     path("api/inventory/categories/all/", CategoryList.as_view()),
     path("api/inventory/category/<str:pk>/", CategoryDetails.as_view()),
     path("api/inventory/products/category/<str:query>/",ProductByCategory.as_view()),
