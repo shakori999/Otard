@@ -170,9 +170,15 @@ class OrderList(generics.ListCreateAPIView):
 
 
 class OrderDetails(generics.ListAPIView):
-    #TODO: add admin auth to see all orders details ,and another one for customer's order details only
+    """TODO: add admin auth to see all orders details ,and another one for customer's order details only
+       this is a simple api for customer's order details view
+        def get_queryset(self):
+            order_id = self.kwargs['pk']
+            order_2 = Order.objects.get(user=self.request.user, ordered=False)
+            order_items = OrderItem.objects.filter(order=order_2)
+            return order_items
+"""
     serializer_class = OrderDetailsSerializer
-
     def get_queryset(self):
         order_id = self.kwargs['pk']
         order = Order.objects.get(id=order_id)
