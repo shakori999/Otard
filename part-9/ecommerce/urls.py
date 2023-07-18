@@ -17,12 +17,15 @@ from rest_framework_simplejwt.views import (
 from ecommerce.drf.views import (
     CategoryList,
     CategoryDetails,
+    OrderDetails,
+    OrderList,
     ProductByCategory,
     ProductInventoryByWebId,
     ProductsList,
     ProductDetails,
     CustomersList,
     CustomersDetails,
+    
     )
 from ecommerce.search.views import SearchProductInventory
 from ecommerce.order.views import *
@@ -44,6 +47,8 @@ urlpatterns = [
     path("api/inventory/products/all/", ProductsList.as_view()),
     path("api/inventory/product/<int:pk>/", ProductInventoryByWebId.as_view()),
     path("api/inventory/product/details/<str:pk>/", ProductDetails.as_view()),
+    path("api/orders/",OrderList.as_view()),
+    path("api/order/details/<str:pk>/",OrderDetails.as_view()),
     path("api/search/<str:query>/", SearchProductInventory.as_view()),
 
 ]

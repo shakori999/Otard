@@ -1,7 +1,7 @@
 import uuid
 from django.db import models
 from django.contrib.auth import get_user_model
-from ecommerce.inventory.models import Product
+from ecommerce.inventory.models import Product, ProductInventory
 from ecommerce.checkout.models import *
 from django.urls import reverse
 # Create your models here.
@@ -12,11 +12,11 @@ class OrderItem(models.Model):
         on_delete=models.CASCADE,
         )
     ordered = models.BooleanField(default=False)
-    item = models.ForeignKey(Product, on_delete=models.CASCADE)
+    item = models.ForeignKey(ProductInventory, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
 
     def __str__(self):
-        return f"{self.quantity} of {self.item.name}"
+        return f"{self.quantity} of {self.item.product.name}"
 
     def get_total_item_price(self):
         return self.quantity * self.item.price

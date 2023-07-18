@@ -143,35 +143,41 @@ class ProductInventorySearchSerializer(serializers.ModelSerializer):
             "brand",
         ]
 
-
-class CartItemSerializer(serializers.ModelSerializer):
-    product = ProductSerializer(many=False)
+class OrderDetailsSerializer(serializers.ModelSerializer):
+    product_name = serializers.SerializerMethodField()
+    item = serializers.CharField(max_length=50)
+    user = serializers.CharField(max_length=50)
     sub_total = serializers.SerializerMethodField( method_name="total")
+
     class Meta:
         model= OrderItem
-        fields = ["id", "cart", "product", "quantity", "sub_total"]
+        fields = ["id","ordered", "user", 'product_name',"item", "quantity", "sub_total", ]
         
     
     def total(self, cartitem:OrderItem):
-        return cartitem.quantity * cartitem.product.price
+        return cartitem.quantity * cartitem.item.store_price
+
+    def get_product_name(self, obj:OrderItem):
+        return obj.item.product.name
+    
+    
 
 
-
-
-
-
-class CartSerializer(serializers.ModelSerializer):
+class OrderSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(read_only=True)
-    items = CartItemSerializer(many=True, read_only=True)
+    items = OrderDetailsSerializer(many=True, read_only=True)
     grand_total = serializers.SerializerMethodField(method_name='main_total')
     
     class Meta:
         model = Order
         fields = ["id", "items", "grand_total"]
-        
-    
-    
+        read_only = True
+        depth=1
+
     def main_total(self, cart: Order):
         items = cart.items.all()
-        total = sum([item.quantity * item.product.price for item in items])
+        total = sum([item.quantity * item.item.store_price for item in items])
         return total
+
+    def __init__(self, *args, **kwargs):
+        super(OrderSerializer, self).__init__(*args, **kwargs)

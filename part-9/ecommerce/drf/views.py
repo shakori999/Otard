@@ -1,12 +1,12 @@
 from django.shortcuts import render, get_object_or_404
 from ecommerce.drf.serializer import (
     CategorySerializer,
+    OrderDetailsSerializer,
+    OrderSerializer,
     ProductInventorySerializer,
     ProductSerializer,
     CustomersListSerializer,
     CustomersDetialsSerializer,
-    CartItemSerializer,
-    CartSerializer,
 )
 from rest_framework import generics,permissions
 from rest_framework.response import Response
@@ -164,9 +164,21 @@ class ProductDetails(generics.RetrieveUpdateDestroyAPIView):
 
 
 
+class OrderList(generics.ListCreateAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
 
 
+class OrderDetails(generics.ListAPIView):
+    #TODO: add admin auth to see all orders details ,and another one for customer's order details only
+    serializer_class = OrderDetailsSerializer
 
+    def get_queryset(self):
+        order_id = self.kwargs['pk']
+        order = Order.objects.get(id=order_id)
+        order_2 = Order.objects.get(user=self.request.user, ordered=False)
+        order_items = OrderItem.objects.filter(order=order)
+        return order_items
 
 
     
