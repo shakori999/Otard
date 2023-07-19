@@ -1,4 +1,4 @@
-from attr import attributes
+from attr import attributes, fields
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from ecommerce.inventory.models import (
@@ -9,7 +9,9 @@ from ecommerce.inventory.models import (
     ProductAttributeValue,
     ProductAttributeValues,
     ProductInventory,
+    ProductRating,
     ProductType,
+    ProductRating,
 )
 from ecommerce.accounts.models import CustomUser 
 from django.contrib.auth.models import User
@@ -96,6 +98,7 @@ class ProductInventorySerializer(serializers.ModelSerializer):
     brand = BrandSerializer(read_only=True)
     attributes = ProductAttributeValueSerializer(source="attribute_values", many=True, read_only=True)
     promotion_price = serializers.SerializerMethodField()
+    product_ratings = serializers.StringRelatedField(many=True, read_only=True)
 
     class Meta:
         model = ProductInventory
@@ -111,8 +114,10 @@ class ProductInventorySerializer(serializers.ModelSerializer):
             "attributes",
             "product_type",
             "promotion_price",
+            "product_ratings",
+            
         ]
-        depth = 1
+        depth=2
         read_only = True
 
 
@@ -144,7 +149,7 @@ class ProductInventorySearchSerializer(serializers.ModelSerializer):
         ]
 
 class OrderDetailsSerializer(serializers.ModelSerializer):
-    product_name = serializers.SerializerMethodField()
+    product_name = serializers.StringRelatedField()
     item = serializers.CharField(max_length=50)
     user = serializers.CharField(max_length=50)
     sub_total = serializers.SerializerMethodField( method_name="total")
@@ -157,8 +162,7 @@ class OrderDetailsSerializer(serializers.ModelSerializer):
     def total(self, cartitem:OrderItem):
         return cartitem.quantity * cartitem.item.store_price
 
-    def get_product_name(self, obj:OrderItem):
-        return obj.item.product.name
+    
     
     
 
@@ -181,3 +185,16 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def __init__(self, *args, **kwargs):
         super(OrderSerializer, self).__init__(*args, **kwargs)
+
+class ProductRatingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductRating
+        fields=['id', 'customer', 'product', 'rating', 'reviews','add_time']
+
+    def __init__(self, *args, **kwargs):
+        super(ProductRatingSerializer, self).__init__(*args, **kwargs)
+        self.Meta.depth = 1
+
+
+
+

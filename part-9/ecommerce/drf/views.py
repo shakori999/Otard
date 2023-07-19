@@ -1,26 +1,22 @@
 from django.shortcuts import render, get_object_or_404
+
+from rest_framework import viewsets, generics, permissions, pagination
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from ecommerce.accounts.models import CustomUser
+from ecommerce.inventory.models import Category, Product, ProductInventory, ProductRating
+from ecommerce.order.models import Order, OrderItem
 from ecommerce.drf.serializer import (
     CategorySerializer,
     OrderDetailsSerializer,
     OrderSerializer,
     ProductInventorySerializer,
+    ProductRatingSerializer,
     ProductSerializer,
     CustomersListSerializer,
     CustomersDetialsSerializer,
 )
-from rest_framework import generics,permissions
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework.viewsets import ModelViewSet,GenericViewSet
-from rest_framework.mixins import (
-        CreateModelMixin,
-        RetrieveModelMixin,
-        DestroyModelMixin,
-        )
-from ecommerce.accounts.models import CustomUser
-from django.contrib.auth.models import User
-from ecommerce.inventory.models import Category, Product, ProductInventory
-from ecommerce.order.models import Order, OrderItem
 
 class CustomersList(generics.ListCreateAPIView):
     """
@@ -188,6 +184,9 @@ class OrderDetails(generics.ListAPIView):
 
 
     
+class ProductRatingViewSet(viewsets.ModelViewSet):
+    serializer_class = ProductRatingSerializer
+    queryset = ProductRating.objects.all()
         
 
 

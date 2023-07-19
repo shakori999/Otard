@@ -1,19 +1,15 @@
 from django.contrib import admin
-from django.urls import path
-from ecommerce.checkout.views import *
-
 from django.urls import path, include
 
 from rest_framework.routers import DefaultRouter
-from rest_framework_nested import routers
-
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
 
-
-
+from ecommerce.search.views import SearchProductInventory
+from ecommerce.order.views import *
+from ecommerce.checkout.views import *
 from ecommerce.drf.views import (
     CategoryList,
     CategoryDetails,
@@ -21,18 +17,17 @@ from ecommerce.drf.views import (
     OrderList,
     ProductByCategory,
     ProductInventoryByWebId,
+    ProductRatingViewSet,
     ProductsList,
     ProductDetails,
     CustomersList,
     CustomersDetails,
     
     )
-from ecommerce.search.views import SearchProductInventory
-from ecommerce.order.views import *
 
 
-
-
+router=DefaultRouter()
+router.register('producctrating', ProductRatingViewSet)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -52,3 +47,5 @@ urlpatterns = [
     path("api/search/<str:query>/", SearchProductInventory.as_view()),
 
 ]
+
+urlpatterns += router.urls
