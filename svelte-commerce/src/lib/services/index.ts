@@ -1,5 +1,0 @@
-// export * from './bigcommerce'
-export * from './litekart'
-// export * from './medusa'
-// export * from './shopify'
-// export * from './woocommerce'
