@@ -1,10 +1,10 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vitest/config';
-import WindiCSS from 'vite-plugin-windicss'
+import UnoCSS from '@unocss/svelte-scoped/vite'
 
 export default defineConfig({
 	plugins: [
-    WindiCSS({ config: "windi.config.ts" }),
+    UnoCSS(),
     sveltekit(),
   ],
 	test: {
