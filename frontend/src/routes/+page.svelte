@@ -1,59 +1,17 @@
+<div class="container h-full mx-auto flex justify-center items-center">
+  <div class="grid grid-cols-3 gap-4">
+    <div class="col-span-3">
+      <h1 class='text-5xl'>sveltekit </h1>
+    </div>
+    <div class="col-span-3">
+      <button class="bg-hex-b2a8bb rounded-1/2">checout with stripe</button>
+      <button class="btn variant-filled-primary animate-bounce">checout with stripe</button>
+    </div>
+  </div>
+  <div class="text-black dark:text-white">
+    <h1>hello</h1>
+  </div>
+</div>
 <script>
-	import Counter from './Counter.svelte';
-	import welcome from '$lib/images/svelte-welcome.webp';
-	import welcome_fallback from '$lib/images/svelte-welcome.png';
+  import 'virtual:windi.css'
 </script>
-
-<svelte:head>
-	<title>Home</title>
-	<meta name="description" content="Svelte demo app" />
-</svelte:head>
-
-<section>
-	<h1>
-		<span class="welcome">
-			<picture>
-				<source srcset={welcome} type="image/webp" />
-				<img src={welcome_fallback} alt="Welcome" />
-			</picture>
-		</span>
-
-		to your new<br />SvelteKit app
-	</h1>
-
-	<h2>
-		try editing <strong>src/routes/+page.svelte</strong>
-	</h2>
-
-	<Counter />
-</section>
-
-<style>
-	section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 0.6;
-	}
-
-	h1 {
-		width: 100%;
-	}
-
-	.welcome {
-		display: block;
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
-
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
-	}
-</style>

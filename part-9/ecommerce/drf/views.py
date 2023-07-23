@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import  get_object_or_404
 
 from rest_framework import viewsets, generics, permissions, pagination
 from rest_framework.response import Response
@@ -178,7 +178,7 @@ class OrderDetails(generics.ListAPIView):
     def get_queryset(self):
         order_id = self.kwargs['pk']
         order = Order.objects.get(id=order_id)
-        order_2 = Order.objects.get(user=self.request.user, ordered=False)
+        #order_2 = Order.objects.get(user=self.request.user, ordered=False)
         order_items = OrderItem.objects.filter(order=order)
         return order_items
 
