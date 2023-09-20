@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from ecommerce.inventory.models import Product, ProductInventory
 from ecommerce.checkout.models import *
 from django.urls import reverse
+ 
 # Create your models here.
 
 class OrderItem(models.Model):
@@ -42,8 +43,9 @@ class Order(models.Model):
     user = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
+        related_name="user_name",
     )
-    items = models.ManyToManyField(OrderItem)
+    items = models.ManyToManyField(OrderItem, related_name="item_name")
     start_date = models.DateTimeField(auto_now_add=True)
     ordered_date = models.DateTimeField() 
     ordered = models.BooleanField(default=False)
