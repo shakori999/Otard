@@ -14,7 +14,7 @@ from ecommerce.drf.views import (
     CategoryList,
     CategoryDetails,
     OrderDetails,
-    OrderList,
+    OrderViewSet,
     ProductByCategory,
     ProductInventoryByWebId,
     ProductRatingViewSet,
@@ -22,15 +22,21 @@ from ecommerce.drf.views import (
     ProductDetails,
     CustomersList,
     CustomersDetails,
-    
+    store,
+    cart,
+    checkout,
     )
 
 
 router=DefaultRouter()
 router.register('producctrating', ProductRatingViewSet)
+router.register('order', OrderViewSet)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("", store, name="home"),
+    path("cart", cart, name="cart"),
+    path("checkout", checkout, name="checkout"),
     path("api-auth/", include('rest_framework.urls')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
@@ -42,7 +48,7 @@ urlpatterns = [
     path("api/inventory/products/all/", ProductsList.as_view()),
     path("api/inventory/product/<int:pk>/", ProductInventoryByWebId.as_view()),
     path("api/inventory/product/details/<str:pk>/", ProductDetails.as_view()),
-    path("api/orders/",OrderList.as_view()),
+    #path("api/orders/",OrderList.as_view()),
     path("api/order/details/<str:pk>/",OrderDetails.as_view()),
     path("api/search/<str:query>/", SearchProductInventory.as_view()),
 

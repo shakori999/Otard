@@ -1,8 +1,10 @@
-from django.shortcuts import  get_object_or_404
+from django.shortcuts import  get_object_or_404, render
 
 from rest_framework import viewsets, generics, permissions, pagination
+from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
 
 from ecommerce.accounts.models import CustomUser
 from ecommerce.inventory.models import Category, Product, ProductInventory, ProductRating
@@ -160,7 +162,7 @@ class ProductDetails(generics.RetrieveUpdateDestroyAPIView):
 
 
 
-class OrderList(generics.ListCreateAPIView):
+class OrderViewSet(CreateModelMixin,RetrieveModelMixin, viewsets.GenericViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
 
@@ -190,6 +192,17 @@ class ProductRatingViewSet(viewsets.ModelViewSet):
         
 
 
+def store(request):
+    context = {}
+    return render(request, "drf/index.html", context)
+
+def cart(request):
+    context = {}
+    return render(request, "drf/cart.html", context)
+
+def checkout(request):
+    context = {}
+    return render(request, "drf/checkout.html", context)
         
     
     

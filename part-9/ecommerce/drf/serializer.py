@@ -1,6 +1,7 @@
 from attr import attributes, fields
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
+from ecommerce import order
 from ecommerce.inventory.models import (
     Brand,
     Category,
@@ -149,14 +150,19 @@ class ProductInventorySearchSerializer(serializers.ModelSerializer):
         ]
 
 class OrderDetailsSerializer(serializers.ModelSerializer):
-    product_name = serializers.StringRelatedField()
-    item = serializers.CharField(max_length=50)
     user = serializers.CharField(max_length=50)
     sub_total = serializers.SerializerMethodField( method_name="total")
 
     class Meta:
         model= OrderItem
-        fields = ["id","ordered", "user", 'product_name',"item", "quantity", "sub_total", ]
+        fields = [
+                "ordered",
+                "user",
+                "item",
+                "quantity",
+                "sub_total",
+        ]
+
         
     
     def total(self, cartitem:OrderItem):
@@ -168,13 +174,13 @@ class OrderDetailsSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    id = serializers.UUIDField(read_only=True)
-    items = OrderDetailsSerializer(many=True, read_only=True)
+    #item_name = OrderDetailsSerializer(many=True, read_only=True)
     grand_total = serializers.SerializerMethodField(method_name='main_total')
+    item_name = serializers.StringRelatedField(many=False, read_only=True)
     
     class Meta:
         model = Order
-        fields = ["id", "items", "grand_total"]
+        fields = "__all__"
         read_only = True
         depth=1
 
@@ -182,9 +188,6 @@ class OrderSerializer(serializers.ModelSerializer):
         items = cart.items.all()
         total = sum([item.quantity * item.item.store_price for item in items])
         return total
-
-    def __init__(self, *args, **kwargs):
-        super(OrderSerializer, self).__init__(*args, **kwargs)
 
 class ProductRatingSerializer(serializers.ModelSerializer):
     class Meta:
