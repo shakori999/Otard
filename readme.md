@@ -21,8 +21,17 @@ Database:
 
 Testing
 
-    - [ ] Unit testing Promotion app
-    - [ ] Unit testing Celery
+    - [ ] Unit testing models creation
+    - [ ] Unit testing models String Representation 
+    - [ ] Unit testing models validation 
+    - [ ] Unit testing models Data Integrity 
+    - [ ] Unit testing models relationships 
+    - [ ] Unit testing models methods and properties 
+    - [ ] Unit testing models Index 
+    - [ ] Unit testing models Meta Options 
+    - [ ] Unit testing models signal 
+    - [ ] Unit testing models Model Manager 
+    - [ ] Unit testing models Integration 
 
 Promotion App Scope: 
 
