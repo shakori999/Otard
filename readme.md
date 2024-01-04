@@ -21,8 +21,8 @@ Database:
 
 Testing
 
-    - [ ] Unit testing models creation
-    - [ ] Unit testing models String Representation 
+    - [ ] Unit testing models creation: `category`
+    - [ ] Unit testing models String Representation: `category` 
     - [ ] Unit testing models validation 
     - [ ] Unit testing models Data Integrity 
     - [ ] Unit testing models relationships 
