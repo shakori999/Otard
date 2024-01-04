@@ -13,8 +13,22 @@ from ecommerce.inventory.models import (
 
 @pytest.fixture
 def single_category(db):
-    return Category.objects.create(name="default", slug="default")
+    return Category.objects.create(name="Test Category", slug="test-category", is_active=True)
 
+@pytest.fixture
+def create_categories():
+    # Create multiple categories with parent-child relationships
+    root_category = Category.objects.create(name="Root Category", slug="root-category", is_active=True)
+    category_1 = Category.objects.create(name="Category 1", slug="category-1", is_active=True, parent=root_category)
+    category_2 = Category.objects.create(name="Category 2", slug="category-2", is_active=True, parent=root_category)
+    subcategory_1 = Category.objects.create(name="Subcategory 1", slug="subcategory-1", is_active=True, parent=category_1)
+
+    return {
+        'root_category': root_category,
+        'category_1': category_1,
+        'category_2': category_2,
+        'subcategory_1': subcategory_1,
+    }
 
 @pytest.fixture
 def category_with_child(db):
