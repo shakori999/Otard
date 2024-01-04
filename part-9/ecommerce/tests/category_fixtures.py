@@ -6,7 +6,7 @@ def single_category(db):
     return Category.objects.create(name="Test Category", slug="test-category", is_active=True)
 
 @pytest.fixture
-def create_categories():
+def create_categories(db):
     # Create multiple categories with parent-child relationships
     root_category = Category.objects.create(name="Root Category", slug="root-category", is_active=True)
     category_1 = Category.objects.create(name="Category 1", slug="category-1", is_active=True, parent=root_category)

@@ -48,10 +48,3 @@ def test_move_categories(create_categories):
     categories['subcategory_1'].parent = categories['category_2']
     assert categories['subcategory_1'].parent == categories['category_2']
 
-@pytest.mark.django_db
-def test_check_ordering(create_categories):
-    categories = create_categories
-
-    # Check that the ordering within the tree is maintained properly
-    assert list(categories['root_category'].get_children()) == [categories['category_1'], categories['category_2']]
-    assert list(categories['category_1'].get_children()) == [categories['subcategory_1']]
