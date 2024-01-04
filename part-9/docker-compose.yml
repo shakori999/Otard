@@ -47,7 +47,7 @@ services:
     restart: always
     image: redis:alpine
     ports:
-      - "6379:6379"
+      - "6380:6380"
 
   celery:
     container_name: celery_ecommercev2
